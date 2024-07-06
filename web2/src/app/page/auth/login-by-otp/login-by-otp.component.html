@@ -1,0 +1,37 @@
+@if (is_valid_init) {
+<form (ngSubmit)="onSubmit()">
+  <div class="spinner-input">
+    <div class="form-floating">
+      <input [(ngModel)]="otp_code" name="otp_code" type="text" class="form-control" id="otp_code" placeholder="{{ t('otp code') }}" required />
+      <label for="otp_code">{{ t('otp code') }}</label>
+    </div>
+    @if (has_timer) {
+    <div class="spinner-container">
+      <div class="spinner"></div>
+      <div class="text-muted small">{{ timer }}</div>
+    </div>
+    }
+  </div>
+  @if (has_alert) {
+  <div class="alert alert-danger m-0 mt-2" role="alert">{{ alert_message }}</div>
+  }
+  <div class="d-flex justify-content-between align-items-center">
+    <div class="form-check text-start mt-3">
+      <input [(ngModel)]="remember_me" name="remember_me" type="checkbox" class="form-check-input" id="remember_me" required />
+      <label class="form-check-label" for="remember_me">{{ t('remember me') }}</label>
+    </div>
+    @if (has_resend) {
+    <button (click)="resend()" type="button" class="btn btn-sm btn-link mt-2">{{ t('resend') }}</button>
+    }
+  </div>
+  <button class="btn btn-lg btn-primary w-100 mt-3 py-2" type="submit">{{ t('sign in') }}</button>
+</form>
+}
+
+@else if (has_alert) {
+<div class="alert alert-danger m-0" role="alert">{{ alert_message }}</div>
+}
+
+<div class="d-flex justify-content-center w-100 mt-2">
+  <a (click)="back()" type="button" class="btn btn-link">{{ t('back') }}</a>
+</div>

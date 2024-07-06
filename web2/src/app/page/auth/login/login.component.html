@@ -1,0 +1,27 @@
+@if (step === 1) {
+<form (ngSubmit)="onSubmit()">
+  <div class="form-floating">
+    <input [(ngModel)]="login_value" name="login" type="email" class="form-control" id="loginInput" placeholder="{{ t('login') }}" required />
+    <label for="loginInput">{{ t('login') }}</label>
+  </div>
+  <div class="form-floating">
+    <input [(ngModel)]="password_value" name="password" type="password" class="form-control" id="passwordInput" placeholder="{{ t('password') }}" required />
+    <label for="passwordInput">{{ t('password') }}</label>
+  </div>
+  <div class="d-flex flex-row-reverse">
+    <a type="button" class="btn btn-sm btn-link" routerLink="../recover_password">{{ t('forgot password?') }}</a>
+  </div>
+  @if (has_alert) {
+  <div class="alert alert-danger m-0 mt-1" role="alert">{{ alert_message }}</div>
+  }
+  <button class="btn btn-lg btn-primary w-100 mt-3 py-2" type="submit">{{ t('sign in') }}</button>
+  <div class="d-flex mt-3">
+    <a class="btn btn-sm btn-outline-primary w-100 me-1 py-1" routerLink="../login_by_phone" routerLinkActive="d-none" type="button">{{ t('Login by phone') }}</a>
+    <a class="btn btn-sm btn-outline-primary w-100 ms-1 py-1" routerLink="../login_by_email" routerLinkActive="d-none" type="button">{{ t('Login by email') }}</a>
+  </div>
+</form>
+}
+
+@else if (step === 2) {
+<b-login-by-otp [token]="otp?.token" [expires_in]="otp?.expires_in" (returnBack)="back()"></b-login-by-otp>
+}

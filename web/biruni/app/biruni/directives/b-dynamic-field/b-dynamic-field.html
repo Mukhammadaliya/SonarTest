@@ -1,0 +1,96 @@
+<!-- fields row -->
+<div class="row" ng-if="_$bFields.q.is_valid">
+  <div class="col-sm-{{ _$bFields.q.col_size }}" ng-class="{ 'mt-4': field_index > _$bFields.q.row_col_count - 1 }" ng-repeat="(field_index, field) in _$bFields.d.dynamic_fields">
+
+    <!-- field label -->
+    <label>{{ field.name }}<r ng-show="_$bFields.q.mode === 'E' && field.required === 'Y'" /></label>
+
+    <!-- MODE: EDIT -->
+    <div ng-if="_$bFields.q.mode === 'E'">
+      <!-- field type: (N)umber -->
+      <input
+        type="text"
+        class="form-control"
+        ng-if="field.type === 'N'"
+        ng-model="field.value"
+        ng-required="field.required === 'Y'"
+        b-maxlength="20"
+        b-number
+        precision="20"
+        scale="6"
+      />
+
+      <!-- field type: Da(T)e -->
+      <input
+        type="text"
+        class="form-control"
+        ng-if="field.type === 'T'"
+        ng-model="field.value"
+        ng-required="field.required === 'Y'"
+        b-date-picker="DD.MM.YYYY"
+      />
+
+      <!-- field type: (S)tring -->
+      <input
+        type="text"
+        class="form-control"
+        ng-if="field.type === 'S'"
+        ng-model="field.value"
+        ng-required="field.required === 'Y'"
+        b-maxlength="4000"
+      />
+
+      <!-- field type: (C)heckbox -->
+      <div ng-if="field.type === 'C'" ng-repeat="option in field.options">
+        <label class="checkbox">
+          <input
+            type="checkbox"
+            ng-model="option.selected"
+            ng-change="_$bFields.onChangeCheckbox(field_index)"
+            ng-true-value="'Y'"
+            ng-false-value="'N'"
+          />
+          <span>{{ option.option_name }}</span>
+        </label>
+      </div>
+
+      <!-- field type: (D)ropdown -->
+      <b-input
+        ng-if="field.type === 'D'"
+        local-data="field.options"
+        model="field.selected_option_name"
+        model-key="field.selected_option_id"
+        on-select="_$bFields.onSelectDropdown(row, field_index)"
+        on-delete="_$bFields.onSelectDropdown({}, field_index)"
+        required-key="field.required === 'Y'">
+        {{ row.option_name }}
+      </b-input>
+    </div>
+
+    <!-- MODE: VIEW -->
+    <div ng-if="_$bFields.q.mode === 'V'">
+      <!-- field type: (N)umber -->
+      <span class="form-view text-right" ng-if="field.type === 'N'">{{ field.value | bNumber }}</span>
+
+      <!-- field type: Da(T)e || (S)tring -->
+      <span class="form-view" ng-if="_$bFields.contains(['T', 'S'], field.type)">{{ field.value }}</span>
+
+      <!-- field type: (C)heckbox -->
+      <div ng-if="field.type === 'C'" ng-repeat="option in field.options">
+        <label class="checkbox">
+          <input
+            type="checkbox"
+            ng-model="option.selected"
+            ng-true-value="'Y'"
+            ng-false-value="'N'"
+            ng-disabled="true"
+          />
+          <span>{{ option.option_name }}</span>
+        </label>
+      </div>
+
+      <!-- field type: (D)ropdown -->
+      <span class="form-view" ng-if="field.type === 'D'">{{ field.selected_option_name }}</span>
+    </div>
+  </div>
+</div>

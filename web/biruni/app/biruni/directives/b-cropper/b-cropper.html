@@ -1,0 +1,40 @@
+<div class="modal" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false"
+     ngf-multiple="false"
+     ngf-pattern="'.jpg,.png,.jpeg'">
+  <div class="modal-dialog" ngf-drop="o.uploadPhoto($file)" ngf-drag-over-class="'b-drag-over'">
+    <div class="modal-content">
+      <div class="modal-body row">
+        <div class="b-cropper-container col-24" ng-class="{'col-sm-16': (o.round && o.square)}">
+          <div>
+            <img style="max-width: 100%;" ngf-src="o.no_photo" ng-show="!o.photo" />
+            <img class="crop_main_photo" style="max-width: 100%;" ngf-src="o.photo" ng-show="o.photo" />
+          </div>
+          <div class="mt-4 mb-4">
+            <b-dropzone on-select="o.uploadPhoto($file)" accept="'.png,.jpg,.jpeg'"></b-dropzone>
+          </div>
+        </div>
+        <div class="b-cropper-preview col-24 col-sm-8" ng-if="o.round && o.square">
+          <div class="b-cropper-preview-text">
+            <h6>{{ o.bConfig.langs.crp_preview }}</h6>
+          </div>
+          <div class="b-cropper-preview-large">
+            <img style="width: 100px;" ngf-src="o.no_photo" ng-show="!o.photo" />
+            <img class="crop_large" ngf-src="o.photo" ng-show="o.photo"/>
+          </div>
+          <div class="b-cropper-preview-medium">
+            <img style="width: 60px;" ngf-src="o.no_photo" ng-show="!o.photo" />
+            <img class="crop_medium" ngf-src="o.photo" ng-show="o.photo"/>
+          </div>
+          <div class="b-cropper-preview-small">
+            <img style="width: 35px;" ngf-src="o.no_photo" ng-show="!o.photo" />
+            <img class="crop_small" ngf-src="o.photo" ng-show="o.photo"/>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-sm btn-primary" ng-disabled="!o.photo" ng-click="o.saveCrop()">{{ o.bConfig.langs.crp_save }}</button>
+        <button type="button" class="btn btn-sm btn-default" ng-click="o.closeModal()">{{ o.bConfig.langs.crp_close }}</button>
+      </div>
+    </div>
+  </div>
+</div>

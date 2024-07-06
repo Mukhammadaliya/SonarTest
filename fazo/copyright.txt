@@ -1,0 +1,2 @@
+prompt Fazo schema
+prompt (c) 2016 Green White Solutions. www.greenwhite.uz

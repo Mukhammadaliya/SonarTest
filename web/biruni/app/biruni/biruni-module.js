@@ -1,0 +1,1 @@
+var biruni = angular.module('biruni', ['ngFileUpload', 'gridster']);

@@ -1,0 +1,9 @@
+<div ngf-drop="uploadFile($files)" ngf-select="uploadFile($files)" ngf-drag-over-class="'b-drag-over'" <%= multiple %> <%= accept %> <%= keep %> >
+  <div class="b-dropzone">
+    <div class="d-flex justify-content-center align-items-center flex-column">
+      <i class="flaticon-upload-1"></i>
+      <h6 class="mb-0"> <%= drag_drop_text %> </h6>
+      <h5 class="file" ng-repeat="file in $bDropzone.files">{{ file.name }}</h5>
+    </div>
+  </div>
+</div>

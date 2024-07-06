@@ -1,0 +1,32 @@
+<div class="b-input">
+  <div class="input">
+    <%= inputHtml %>
+  </div>
+  <div class="hint" ng-show="_$bInput.showHint">
+    <%= headerHtml %>
+    <div class="hint-body" b-when-scrolled="_$bInput.hasMoreRows && _$bInput.onMoreClick()">
+      <div class="hint-item"
+           ng-class="{active: $index === _$bInput.activeRowIndex}"
+           ng-repeat="row in _$bInput.rows track by $index"
+           ng-mouseover="_$bInput.onMouseOver($index)"
+           ng-click="_$bInput.onSelectClick(row, $index)">
+        <div class="form-row">
+          <%= rowHtml %>
+        </div>
+      </div>
+    </div>
+    <div class="hint-footer" ng-show="_$bInput.isAdd || _$bInput.isView">
+      <div class="left" ng-if="_$bInput.isAdd">
+        <a href="" ng-click="_$bInput.onAddClick()">{{ ::_$bInput.langs.input_add }}</a><span ng-if="_$bInput.noRows && _$bInput.searchValue">&nbsp;&rarr;&nbsp;{{ _$bInput.searchValue }}</span>
+      </div>
+      <div class="right" ng-if="_$bInput.isView">
+        <a href="" ng-click="_$bInput.onViewClick()">{{ ::_$bInput.langs.input_view }}</a>
+      </div>
+    </div>
+    <div class="loading" ng-if="_$bInput.queryFetching" ng-click="$event.stopPropagation()">
+      <div class="loading-message">
+        <span>{{ ::_$bInput.langs.input_loading }}</span>&nbsp;<span><div class="spinner"></div></span>
+      </div>
+    </div>
+  </div>
+</div>

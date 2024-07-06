@@ -1,0 +1,33 @@
+.b-dropzone {
+  height: 70px;
+
+  > div {
+    padding: 5rem 1rem;
+    background-color: #fff;
+    border: 1px dashed #d2ddec;
+    border-radius: .375rem;
+    text-align: center;
+    color: #95aac9;
+    transition: all .2s ease-in-out;
+    order: -1;
+    cursor: pointer;
+    z-index: 999;
+    height: 100%;
+
+    &:hover {
+      border-color: #95aac9;
+      color: #12263f;
+    }
+    > i {
+      font-size: 50px;
+    }
+    .file {
+      color: rgb(0, 152, 219);
+      word-break: break-all;
+    }
+
+    .b-drag-over & {
+      border-color: rgba(0,0,0,.8);
+    }
+  }
+}

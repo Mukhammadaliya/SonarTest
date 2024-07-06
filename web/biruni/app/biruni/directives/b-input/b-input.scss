@@ -1,0 +1,255 @@
+.b-input {
+  .input {
+    position: relative;
+    .simple {
+      overflow: hidden;
+      &:hover {
+        .edit {
+          cursor: pointer;
+          color: #5867dd;
+        }
+      }
+      .icon-left,
+      .icon-right {
+        position: absolute;
+        height: 100%;
+        display: inline-block;
+        text-align: center;
+        top: 0;
+        width: 2.5rem;
+
+        > span {
+          display: table;
+          height: 100%;
+          width: 100%;
+
+          > i {
+            display: table-cell;
+            vertical-align: middle;
+            text-align: center;
+            line-height: 0;
+
+            &.spinner {
+              left: 5px;
+            }
+          }
+        }
+      }
+      .icon-right {
+        right: 0;
+      }
+      .icon-left{
+        left: 0;
+      }
+      &:has(.icon-left) {
+        .form-control {
+          padding-left: 2.2rem!important;
+        }
+      }
+      &:has(.pin-button){
+        .icon-left{
+          left: 2.5rem!important;
+        }
+        .form-control{
+           padding-left: 2.8rem;
+        }
+        &:has(.icon-left){
+          .form-control {
+            padding-left: 5.2rem!important;
+          }
+        }
+      }
+    }
+
+    .multiple {
+      box-sizing: border-box;
+      position: relative;
+      display: flex;
+      -webkit-flex-wrap: wrap;
+      flex-wrap: wrap;
+      height: auto;
+      padding: 0;
+      min-height: 30px;
+
+      &.padding {
+        padding: 1px 1px 0 1px;
+
+        input {
+          margin: 0;
+        }
+      }
+      &.readonly {
+        background-color: #edeff1;
+      }
+      .title {
+        padding: .5rem .8rem;
+        color: #2e40d4;
+        cursor: pointer;
+      }
+      .btn {
+        display: inline-block;
+        float: left;
+        overflow: hidden;
+        max-width: 100%;
+        margin-right: 1px;
+        margin-bottom: 1px;
+        height: 26px;
+        padding: 0.4rem 0.65rem;
+      }
+      input {
+        min-width: 20%;
+        -webkit-flex: 1;
+        flex: 1;
+        border: none;
+        outline:none;
+        height: 26px;
+        margin: 1px 0;
+      }
+
+      .clear-button{
+        position: absolute;
+        right: 0;
+        top: 0;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        width: 2rem;
+        padding-top: 0.5rem;
+        cursor: pointer;
+        > i {
+          display: table-cell;
+          vertical-align: middle;
+          text-align: center;
+          line-height: 0;
+        }
+      }
+      &:hover{
+        .clear-button{
+          color: #5867dd;
+        }
+      }
+      &:has(.pin-button){
+        padding-left: 2.2rem;
+      }
+    }
+    .pin-button{
+      cursor: default;
+      position: absolute;
+      left: 0;
+      top: 0;
+      background-color: #ecf0f3;
+      height: 100%;
+      width: 2.5rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-top-left-radius: 4px;
+      border-bottom-left-radius: 4px;
+      border: 1px solid #ced4da;
+    }
+  }
+  .hint {
+    position: absolute;
+    width: 100%;
+    margin-top: 2px;
+    z-index: 100;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    margin-bottom: 0;
+
+    &-header {
+      padding: .5rem .8rem;
+      border-bottom: 1px solid #ebedf2;
+      div {
+        font-weight: 600;
+        color: #575962;
+      }
+    }
+    &-body {
+      display: block;
+      overflow-y: auto;
+      max-height: 250px;
+
+      .hint-item {
+        padding: .5rem .8rem;
+        cursor: pointer;
+
+        &.active {
+          background-color: #f5f5f6;
+        }
+      }
+    }
+    &-footer {
+      display: flex;
+      width: 100%;
+      padding: .5rem .8rem;
+
+      .left {
+        text-align: left;
+        width: 50%;
+
+        &.message {
+          font-style: italic;
+          font-weight: normal;
+          color: #afb2c1;
+
+          a {
+            cursor: pointer;
+          }
+        }
+      }
+      .right {
+        text-align: right;
+        width: 100%;
+      }
+    }
+    .loading {
+      position: absolute;
+      top: 0px;
+      left: 0px;
+      width: 100%;
+      height: 100%;
+      z-index: 999999;
+      background-color: rgba(85, 85, 85, 0.03);
+      border-radius: 2px;
+      cursor: wait;
+
+      &-message {
+        display: table;
+        table-layout: fixed;
+        position: absolute;
+        top: calc(50% - 22px);
+        left: calc(50% - 62px);
+        padding: .5rem .8rem;
+        background: #fff;
+        box-shadow: 0px 1px 15px 1px rgba(69, 65, 78, 0.08);
+        border-radius: 2px;
+
+        span {
+          display: table-cell;
+          vertical-align: middle;
+          font-size: 1rem;
+          font-weight: 400;
+
+          div {
+            padding: 15px;
+          }
+        }
+      }
+    }
+  }
+}
+
+.input-group > b-input {
+  -ms-flex: 1;
+  flex: 1;
+}
+
+.input-group > b-input:not(:first-child) .form-control {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+.input-group > b-input:not(:last-child) .form-control {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}

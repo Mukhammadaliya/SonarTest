@@ -1,0 +1,15 @@
+.my-cluster {
+  background-color: #6584de;
+  color: ghostwhite;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 37px;
+  min-height: 37px;
+  border: 2px solid white;
+  box-shadow: 0 2px 4px rgb(0 0 0 / 40%);
+}
+.leaflet-control-container .leaflet-routing-container-hide {
+  display: none;
+}

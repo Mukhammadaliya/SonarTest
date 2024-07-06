@@ -1,0 +1,37 @@
+@if (step == 1) {
+<form (ngSubmit)="getCompanies()">
+  <div class="form-floating">
+    <input [(ngModel)]="email_value" name="email_value" type="email" class="form-control" id="email_value" placeholder="{{ t('email') }}" required />
+    <label for="email_value">{{ t('email') }}</label>
+  </div>
+  @if (has_alert) {
+  <div class="alert alert-danger m-0 mt-1" role="alert">{{ alert_message }}</div>
+  }
+  <button class="btn btn-lg btn-primary w-100 mt-3 py-2" type="submit">{{ t('receive otp') }}</button>
+</form>
+}
+
+@else if (step == 2) {
+<label class="mb-2">{{ t('choose company') }}</label>
+<div class="company-scroll">
+  @for (company of companies; track $index) {
+  <button class="btn btn-custom w-100" [ngClass]="{'mb-3': !$last}" (click)="selectCompany(company)">
+    <div>{{ company.name }}</div>
+    <div class="small text-secondary text-uppercase">{{ company.code }}</div>
+  </button>
+  }
+</div>
+@if (has_alert) {
+<div class="alert alert-danger m-0 mt-3" role="alert">{{ alert_message }}</div>
+}
+}
+
+@else if (step == 3) {
+<b-login-by-otp [token]="otp?.token" [expires_in]="otp?.expires_in" (returnBack)="back()"></b-login-by-otp>
+}
+
+@if (step !== 3) {
+<div class="d-flex justify-content-center w-100 mt-2">
+  <a (click)="back()" type="button" class="btn btn-link">{{ t('back') }}</a>
+</div>
+}

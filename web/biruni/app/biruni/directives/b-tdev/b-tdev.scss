@@ -1,0 +1,33 @@
+tdev {
+  > .btn {
+    background: none;
+    border: none;
+    padding: 2px 5px;
+
+    .btn & {
+      background: #fff;
+      border: 1px solid #eee;
+    }
+    > i {
+      color: #5867dd !important;
+    }
+  }
+  > .sub-menu {
+    position: absolute;
+    top: 25px;
+    left: -20px;
+    z-index: 1100;
+    display: none;
+    float: left;
+    min-width: 10rem;
+    padding: 5px;
+    list-style: none;
+    text-align: left;
+    background-color: #fff;
+    border: 1px solid rgba(0,0,0,.15);
+
+    label {
+      margin: 0;
+    }
+  }
+}

@@ -1,0 +1,49 @@
+form[name^="cropper"] {
+  user-select: none;
+
+  img {
+    pointer-events: none;
+  }
+}
+.b-cropper-container {
+  display: block;
+  text-align: center;
+  max-width: 100%;
+}
+
+.b-cropper-preview {
+  display: block;
+}
+
+.b-cropper-preview-text {
+  border-bottom: 1px solid grey;
+  margin-bottom: 10px;
+}
+
+.b-cropper-preview-large {
+  width: 100px;
+  height: 100px;
+  margin: 20px auto 0 auto;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.b-cropper-preview-medium {
+  width: 60px;
+  height: 60px;
+  margin: 20px auto 0 auto;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.b-cropper-preview-small {
+  width: 35px;
+  height: 35px;
+  margin: 20px auto 0 auto;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.b-dropzone > div {
+  padding: 20px;
+}

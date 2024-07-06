@@ -1,0 +1,44 @@
+format @expr replace :val
+
+field_date(name, [format])   default: dd.mm.yyyy
+field_text(name, [format])   default: none
+field_number(name, [format])  default: none
+refer_date(name, forName, query_option, [format])
+refer_text(name, forName, query_option, [format])
+refer_text(name, forName, array_option, [format])
+refer_quant(name, forName, query_option, [format])
+refer_money(name, forName, query_option, [format])
+exist_date(name, query, )
+exist_text
+exist_number
+
+type = varchar2, number, date
+
+
+field(name, type, format)
+multi(name, type, format, query, join_pairs, using_field)
+refer(name, type, format, query, join_pairs, using_field)
+value(name, values, using_field)
+
+
+----------------------------------------
+Filter clause - Extended_Backus–Naur_Form
+' is used to define just literal
+" is used to define quoted literal
+text             = string 
+number           = string  // to number as Fazo.Format_Number(:val)
+date             = string   // to date as Fazo.Format_Date(:val)
+val              = text | number | date    test always varchar2 value
+val_set          = '[' val { ',' val } ']'
+field_name       = string
+one_operator     = '=' | '<>' | '<' | '<=' | '>' | '>='
+text_operator    = 'like' | 'search'
+set_operator     = '=' | '<>' 
+predicate        = '[' field_name ',' one_operator ',' val ']' |
+                   '[' field_name ',' set_operator ',' val_set ']' |
+                   '[' field_name ',' text_opeator ',' text ']'
+unary            = '["not",' filter ']'
+binary           = '[' ("and" | "or") ',[' filter ',' filter { ',' filter } ']]'
+filter           = predicate | unary | binary
+
+["or", [["and", [["id", "=", [1,2,3]], ["code", "<>", ["342", "342"]]]], ["amount", ">", "432"]]]

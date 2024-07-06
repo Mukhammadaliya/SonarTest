@@ -1,0 +1,33 @@
+# PLSQL
+*.~*
+
+# SBT
+boot/
+lib_managed/
+target/
+.bsp/
+
+# Eclipse
+.cache
+.cache-main
+.classpath
+.project
+.scala_dependencies
+.settings
+.target/
+
+# IntelliJ
+.idea/
+*.iml
+*.ipr
+*.iws
+out/
+
+# Mac
+.DS_Store
+
+install_fazo_schema.sql
+.properties
+files/
+log/
+web/a2

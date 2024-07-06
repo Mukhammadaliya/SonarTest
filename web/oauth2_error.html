@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no user-scalable=no"/>
+  <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+
+  <title>Smartup</title>
+
+  <script src="assets/jquery/jquery.min.js?_=now"></script>
+
+  <link rel="shortcut icon" href="favicon.ico" />
+  <link href="assets/metronic/css/style.bundle.css" rel="stylesheet" type="text/css" />
+  <link href="biruni/login.css?_=now" rel="stylesheet" type="text/css" />
+</head>
+<body>
+  <span id="error" class="text-danger h2 text-center"></span>
+
+<script>
+  $(function () {
+    let params = new URLSearchParams(location.search),
+        regex = /ORA-20999:(.+)\.ORA-06512/g;
+
+    $('#error').text(regex.exec(params.get("error_message"))[1]);
+  });
+</script>
+</body>
+</html>

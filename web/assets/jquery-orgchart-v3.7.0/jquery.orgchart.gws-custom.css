@@ -1,0 +1,185 @@
+.b-node {
+  min-width: 120px;
+  width: 120px;
+  position: relative;
+  overflow: hidden;
+}
+
+.b-node-title {
+  padding: 1px 2px 0 2px;
+  height: 23px;
+  border-radius: 4px 4px 0 0;
+}
+
+.b-node-title.header {
+  background-color: #2C3E50;
+  border: 1px solid rgba(44, 62, 50, 0.8);
+}
+
+.b-node-title.department {
+  background-color: #4B77BE;
+  border: 1px solid rgba(75, 77, 190, 0.8);
+}
+
+.b-node-title.department-group {
+  background-color: #26C281;
+  border: 1px solid rgba(26, 194, 81, 0.8);
+}
+
+.b-node-title.subdepartment {
+  background-color: #8E44AD;
+  border: 1px solid rgba(142, 44, 173, 0.8);
+}
+
+.b-node-title .b-title-text {
+  width: 100%;
+  height: 100%;
+  font-size: 13px;
+  padding: 0 2px 0 2px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-transform: lowercase;
+  text-align: center;
+  color: rgba(250, 250, 250, 0.95);
+}
+
+.b-node-title .b-title-text::first-letter {
+  text-transform: uppercase;
+}
+
+.b-image {
+  cursor: pointer;
+  border-radius: 50%;
+  height: 60px;
+  width: 60px;
+  min-height: 60px;
+  min-width: 60px;
+  border: 1px solid #D3D3D3;
+  z-index: 1;
+  background-color: #fff;
+}
+
+.b-image-content {
+  margin-top: 5px;
+  margin-bottom: 5px;
+  position: relative;
+  width: 100%;
+  text-align: center;
+}
+
+.b-node-content {
+  border-radius: 0 0 4px 4px;
+  border: 1px solid rgba(100, 100, 100, 0.25);
+  background-color: #F2F2F2;
+  width: 100%;
+  height: 140px;
+  position: relative;
+}
+
+.b-node-content .b-node-content-child .b-content-text {
+  padding-left: 2px;
+  font-size: 12px;
+  text-align: center;
+  max-height: 25px;
+  min-height: 14px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-wrap: break-word;
+  white-space: normal;
+  line-height: 1em;
+  color: #555555;
+}
+
+.b-content-text.b-person-name {
+  font-weight: 600;
+  color: #578EBE !important;
+  margin-bottom: 3px;
+}
+
+.b-node-content .b-node-content-child-spliter {
+  position: absolute;
+  margin-left: 3%;
+  width: 94%;
+  bottom: 15px;
+  border-bottom: 1px solid rgba(50, 50, 50, 0.2);
+}
+
+.b-node-content .b-person-counter {
+  position: absolute;
+  bottom: 0px;
+  width: 100%;
+}
+
+.b-node-loading {
+  display: none;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0px;
+  left: 0px;
+  z-index: 999999;
+  background-color: rgba(250, 250, 250, 0.6);
+  border-radius: 2px;
+  cursor: wait;
+}
+
+.b-node-loading>div:first-child {
+  position: absolute;
+  top: 50%;
+  left: calc(50% - 40px);
+}
+
+.orgchart .loading .b-node>.b-node-loading {
+  display: block
+}
+
+.orgchart .loading .horizontalEdge {
+  display: none;
+}
+
+.orgchart .loading .verticalEdge {
+  display: none;
+}
+
+.orgchart .node .b-verticalEdge {
+  width: calc(100% - 20px);
+  width: -webkit-calc(100% - 20px);
+  width: -moz-calc(100% - 20px);
+  left: 10px;
+  bottom: 0px;
+  padding-top: 63px;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.orgchart {
+  background-image: none !important;
+}
+
+.orgchart .hierarchy::before {
+  border-top: 1px solid rgba(192, 192, 192, 0.8) !important;
+}
+
+.orgchart .node:not(:only-child)::after {
+  width: 1px !important;
+  background-color: rgba(192, 192, 192, 0.8) !important;
+}
+
+.orgchart>ul>li>ul li>.node::before {
+  width: 1px !important;
+  background-color: rgba(192, 192, 192, 0.8) !important;
+}
+
+.orgchart .node .title {
+  background-color: rgba(192, 192, 192, 0.8) !important;
+}
+
+.orgchart .node .content {
+  border: 1px solid rgba(192, 192, 192, 0.8) !important;
+}
+
+.orgchart .nodes.vertical .hierarchy::before,
+.orgchart .nodes.vertical .hierarchy::after {
+  border-color: rgba(192, 192, 192, 0.8) !important;
+}

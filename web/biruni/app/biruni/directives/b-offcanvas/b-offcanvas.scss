@@ -1,0 +1,56 @@
+.b-offcanvas {
+  width: 250px;
+
+  > .offcanvas-toggle-btn {
+    display: none;
+  }
+
+  @media (min-width: 1400px) {
+    width: 350px;
+  }
+  @media (max-width: 991.98px) {
+    position: fixed;
+    left: 0px;
+    top: 50px;
+    width: 80px;
+    height: calc(100vh - 50px);
+    -webkit-transition: width .3s;
+    transition: width .3s;
+    z-index: 10;
+
+    &.active {
+      width: 250px;
+    }
+    .card {
+      height: 100% !important;
+    }
+    .card-body {
+      overflow: hidden;
+    }
+    &:not(.active) {
+      .b-offcanvas-hide {
+        display: none !important;
+      }
+      .symbol {
+        max-width: 100%;
+        max-height: 50px;
+      }
+      .card-body {
+        padding: 1.2rem !important;
+      }
+    }
+    > .offcanvas-toggle-btn {
+      display: block;
+      position: absolute;
+      bottom: 50px;
+      right: -10px;
+      padding: 8px 11px;
+      border: none;
+      background-color: #A3BCFE;
+      border-radius: $border-radius;
+      color: white;
+      -webkit-box-shadow: 0 0.5rem 1.5rem 0.5rem rgba(0,0,0,.075);
+      box-shadow: 0 0.5rem 1.5rem 0.5rem rgba(0,0,0,.075);
+    }
+  }
+}

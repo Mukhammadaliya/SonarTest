@@ -1,0 +1,38 @@
+form .form-floating:focus-within {
+  z-index: 2;
+}
+
+form input:focus {
+  box-shadow: none;
+}
+
+.spinner-input {
+  display: flex;
+  position: relative;
+  justify-content: right;
+  align-items: center;
+}
+
+.spinner-input > div:nth-child(1) {
+  width: 100%;
+}
+
+.spinner-input > div:nth-child(2) {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  right: 0.6em;
+  height: 40px;
+  width: 40px;
+  z-index: 100;
+}
+
+.spinner-input > div:nth-child(2) > div:nth-child(1) {
+  height: 100%;
+  width: 100%;
+}
+
+.spinner-input > div:nth-child(2) > div:nth-child(2) {
+  position: absolute;
+}

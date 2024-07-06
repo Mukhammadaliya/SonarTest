@@ -1,0 +1,56 @@
+<div class="grid-controller input-group rounded" ng-if="o.grid.g.enabled">
+  <input ng-if="o.hasSearch" type="search" class="form-control" placeholder="{{ o.bConfig.langs.search_for }}"
+    ng-model="o.searchValue" ng-keydown="onSearchKeyDown($event)" ng-blur="onSearchBlur()" />
+  <div class="input-group-append">
+    <button type="button" class="btn m-0 rounded-0 btn-default btn-icon"  ng-click="openFilter()">
+      <i class="fa fa-filter" ng-class="o.filterClass"></i>
+    </button>
+    <button type="button" class="btn m-0 rounded-0 btn-default btn-icon" ng-if="o.grid.g.showFilterPanel"  ng-click="toggleFilterPanel()">
+      <i class="fa fa-thumbtack"></i>
+    </button>
+    <button type="button" class="btn btn-default rounded-0" data-toggle="dropdown" aria-haspopup="true"
+      aria-expanded="false">
+      <i class="fas fa-arrow-down"></i> {{ o.rowPerPageTitle }}
+    </button>
+    <div class="dropdown-menu">
+      <a class="dropdown-item" ng-class="{disabled: o.limit==50}" href ng-click="changeLimit(50)">50</a>
+      <a class="dropdown-item" ng-class="{disabled: o.limit==100}" href ng-click="changeLimit(100)">100</a>
+      <a class="dropdown-item" ng-class="{disabled: o.limit==500}" href ng-click="changeLimit(500)">500</a>
+      <a class="dropdown-item" ng-class="{disabled: o.limit==1000}" href ng-click="changeLimit(1000)">1000</a>
+    </div>
+    <div
+      class="btn-group page-list d-flex justify-content-center align-items-center border-left-0 border-right-0 rounded-0 m-0">
+      <i class="fas fa-chevron-left" ng-class="{ 'active': hasPrevPage() }" ng-click="slidePageNo(false)"></i>
+      <div class="page-num-list">
+        <span ng-if="o.pages.length == 0">1</span>
+        <span ng-class="{ 'active': pn == o.curPageNo }" ng-click="changePageNo(pn)"
+          ng-repeat="pn in o.pages | limitTo: 5 : o.startPage - 1">{{ pn }}</span>
+      </div>
+      <i class="fas fa-chevron-right" ng-class=" { 'active' : hasNextPage() }" ng-click="slidePageNo(true)"></i>
+    </div>
+
+    <button type="button" class="btn btn-default btn-icon border-right-0 rounded-0 m-0" ng-click="reload()">
+      <i class="fas fa-redo"></i>
+    </button>
+    <div class="btn-group m-0" role="group">
+      <button type="button" class="btn btn-default dropdown-toggle no-after rounded-0 m-0 rounded-right"
+        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <span class="fas fa-bars"></span>
+      </button>
+      <div class="dropdown-menu dropdown-menu-right">
+        <a class="dropdown-item" href ng-click="openSortForm()">
+          <i class="fa fa-sort-alpha-down my-auto mr-2"></i>
+          {{ o.bConfig.langs.sort }}
+        </a>
+        <a class="dropdown-item" href ng-click="openGridSetting()">
+          <i class="fa fa-table my-auto mr-2"></i>
+          {{ o.bConfig.langs.grid_setting }}
+        </a>
+        <a class="dropdown-item" href ng-click="exportExcel()">
+          <i class="fa fa-file-excel my-auto mr-2"></i>
+          {{ o.bConfig.langs.export_excel }}
+        </a>
+      </div>
+    </div>
+  </div>
+</div>

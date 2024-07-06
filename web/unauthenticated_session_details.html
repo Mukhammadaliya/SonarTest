@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no user-scalable=no"/>
+  <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+
+  <title>Smartup</title>
+
+  <script src="assets/underscore/underscore-min.js?_=now"></script>
+  <script src="assets/jquery/jquery.min.js?_=now"></script>
+  <script src="assets/bootstrap/js/bootstrap.bundle.min.js?_=now"></script>
+
+  <link rel="shortcut icon" href="favicon.ico" />
+  <link href="assets/fontawesome/css/all.min.css?_=now" rel="stylesheet" type="text/css" />
+  <link href="assets/metronic/css/style.bundle.css" rel="stylesheet" type="text/css" />
+  <link href="biruni/login.css?_=now" rel="stylesheet" type="text/css" />
+</head>
+<body class="background--blue--900 text--color--white--light">
+  <div class="smartup-line"></div>
+  <div class="login-page__top">
+    <div class="login-page-language" id="langs">
+      <span class="login-page-language__title"></span>
+      <button type="button" class="login-page-language__button">
+        <span class="login-page-language__lang">Ru</span>
+        <i class="fa fa-caret-down login-page-language__caret-down"></i>
+      </button>
+      <div class="login-page-lang-options">
+        <li code="ru">Русский</li>
+        <li code="en">English</li>
+        <li code="uz">Oʻzbek</li>
+        <li code="kk">Қазақ</li>
+        <li code="tr">Türkçe</li>        
+      </div>
+    </div>
+  </div>
+  <div class="login-page__container">
+    <div class="loginbox">
+      <h1 class="h3" id="session_details"></h1>
+      <p id="details_message"></p>
+      <form class="loginbox__form" id="refresh">
+        <div class="loginbox__buttons-container">
+          <button type="submit" id="retry" class="loginbox__button"></button>
+          <a id="back" class="loginbox__button loginbox__button--transparent" href="login.html"></a>
+        </div>
+        <div class="loginbox__error">
+          <span id="error" class="text-danger">&nbsp;</span>
+        </div>
+      </form>
+    </div>
+    <footer class="login-page__footer">
+      <p class="text--size--small text--color--white--disabled">Copyright © 2012-<span id="current_year"></span>, Green White Solutions LLC.<br>All rights reserved. </p>
+    </footer>
+  </div>
+
+<script>
+$(function () {
+  $('#current_year').text(new Date().getFullYear());
+  var lang_code = '',
+      storageKey = 'session_lang',
+      token = '';
+
+  var translates = {
+    session_details: { en: 'Session information', ru: 'Информация о сеансе', uz: `Sessiya ma'lumotlari`, kk: 'Сеанс туралы ақпарат', tr: 'Oturum bilgileri' },
+    retry: { 'en': 'Refresh', 'ru': 'Обновить', 'uz': 'Yangilash', 'kk': 'Жаңарту', tr: 'Yenile' },
+    back: { 'en': 'Back', 'ru': 'Назад', 'uz': 'Orqaga', 'kk': 'Артқа', tr: 'Geri' }
+  };
+
+  var all_langs = [
+    {
+      label: "Language",
+      name: "ENG",
+      code: "en"
+    },
+    {
+      label: "Язык",
+      name: "РУС",
+      code: "ru"
+    },
+    {
+      label: "Til",
+      name: "OʻZB",
+      code: "uz"
+    },
+    {
+      label: "Тіл",
+      name: "ҚАЗ",
+      code: "kk"
+    },
+    {
+      label: "Dil",
+      name: "TUR",
+      code: "tr"
+    }
+  ];
+
+  function putTranslates() {
+    _.each(translates, function(v, k) {
+      var val = v[lang_code];
+
+      if (k == 'login') {
+        $('#' + k).attr('placeholder', val);
+      } else {
+        $('#' + k).text(val);
+      }
+    });
+  }
+
+  function setStorageLang() {
+    var lang = {};
+    var def_lang = navigator.language || navigator.browserLanguage || navigator.userLanguage || '';
+
+    def_lang = def_lang.substr(0, 2).toLowerCase();
+
+    if (!_.findWhere(all_langs, { code: def_lang })) def_lang = _.first(all_langs).code;
+
+    if (('localStorage' in window) && window['localStorage'] !== null) {
+      lang = _.findWhere(all_langs, JSON.parse(window.localStorage.getItem(storageKey)) || { code: def_lang });
+
+      $('#langs').find('.login-page-language__title').text(lang.label + ':');
+      $('#langs').find('.login-page-language__lang').text(lang.name);
+      $('#langs').find('.login-page-language__button').click(function() {
+        $(this).next('.login-page-lang-options').fadeToggle(100);
+      });
+      $('#langs').find('.login-page-lang-options>li').click(function() {
+        window.localStorage.setItem(storageKey, JSON.stringify({
+          code: $(this).attr('code')
+        }));
+        location.reload();
+      });
+      $('body').click(function(ev) {
+        if ($(ev.target).closest('#langs').length == 0) {
+          $('#langs').find('.login-page-lang-options').fadeOut(100);
+        }
+      });
+    } else {
+      $('#langs').remove();
+      lang = { code: def_lang };
+    }
+    lang_code = lang.code;
+  }
+
+  function redirectHomePage(url) {
+    window.localStorage.setItem(storageKey, JSON.stringify({
+      code: lang_code
+    }));
+    window.location.replace(url);
+  }
+
+  function refresh() {
+    $.get('b/core/m$unauthenticated_session_details').done(function(result) {
+      let message = '';
+      _.each(result.details, x => message += x + '<br>');
+
+      if (message) {
+        $('#details_message').text(message);
+      } else {
+        redirectHomePage(result.home_page_url);
+      }
+    }).fail(function(er) {
+      window.location.replace('login.html');
+    });
+  }
+
+  setStorageLang();
+  putTranslates();
+  refresh();
+
+  $('#refresh').submit(function (e) {
+    e.preventDefault();
+    refresh();
+  });
+});
+</script>
+</body>
+</html>

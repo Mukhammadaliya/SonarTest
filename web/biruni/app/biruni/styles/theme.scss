@@ -1,0 +1,86 @@
+$header-themes: (
+  ( class: 'classic', color: #2b3643, hover: #3f4f62 ),
+  ( class: 'white', color: white, hover: #f2f2f2, text: #85858d ),
+  ( class: 'greenwhite', color: #26c281, project: #c8efff, hover: #3dcd90, text: white, gws: white, arrows: true ),
+  ( class: 'socialblue', color: #4a77a8, hover: #3d6898, text: #d7e2ec, arrows: true ),
+  ( class: 'lightpink', color: lightpink, project: white, hover: #f8a8b4, text: #b65664, arrows: true ),
+  ( class: 'gradient', color: #201d3a ), // TODO
+  ( class: 'deep-purple', color: #201d3a, hover: #151233 )
+);
+$backgrounds: (
+  ( class: 'classic', color: #fafafb ),
+  ( class: 'white', color: white ),
+  ( class: 'mintcream', color: mintcream ),
+  ( class: 'aliceblue', color: aliceblue ),
+  ( class: 'snow', color: snow )
+);
+
+@each $theme in $header-themes {
+  body#{ '.b-theme-' + map-get($theme, class) } {
+    $color: map-get($theme, color);
+
+    background-color: $color;
+
+    header {
+      background-color: $color;
+
+      .m-brand,
+      .m-aside-header-menu-mobile.m-aside-header-menu-mobile--skin-dark {
+        background-color: $color;
+      }
+
+      @if (map-has-key($theme, hover)) {
+        .m-brand:hover,
+        .m-topbar .m-topbar__nav.m-nav > .m-nav__item:hover,
+        .m-topbar .m-topbar__nav.m-nav > .m-nav__item.m-dropdown--open,
+        .m-header-menu.m-header-menu--skin-dark .m-menu__nav > .m-menu__item.m-menu__item--hover,
+        .m-header-menu.m-header-menu--skin-dark .m-menu__nav > .m-menu__item:hover {
+          background-color: map-get($theme, hover);
+        }
+      }
+      @if (map-has-key($theme, project)) {
+        .m-brand .navbar .navbar-brand .project-filial .project {
+          color: map-get($theme, project);
+        }
+      }
+    }
+    footer {
+      background-color: $color;
+
+      @if (map-has-key($theme, gws)) {
+        .m-footer__copyright > a {
+          color: map-get($theme, gws) !important;
+        }
+      }
+    }
+
+    @if (map-has-key($theme, text)) {
+      $text: map-get($theme, text);
+
+      .m-header-menu.m-header-menu--skin-dark .m-menu__nav > .m-menu__item,
+      .m-header-menu.m-header-menu--skin-dark .m-menu__nav > .m-menu__item:hover {
+        > .m-menu__link .m-menu__link-text {
+          color: $text;
+        }
+      }
+      .m-brand .navbar .navbar-brand .project-filial .filial,
+      .m-aside-header-menu-mobile.m-aside-header-menu-mobile--skin-dark,
+      .m-topbar .m-topbar__nav.m-nav > .m-nav__item > .m-nav__link .m-nav__link-icon,
+      .m-footer .m-footer__copyright {
+        color: $text;
+      }
+
+      @if (map-has-key($theme, arrows)) {
+        .m-header-menu.m-header-menu--skin-dark .m-menu__nav > .m-menu__item > .m-menu__link .m-menu__hor-arrow {
+          color: $text;
+        }
+      }
+    }
+  }
+}
+
+@each $bg in $backgrounds {
+  body#{'.b-background-' + map-get($bg, class)} .m-body {
+    background-color: map-get($bg, color);
+  }
+}

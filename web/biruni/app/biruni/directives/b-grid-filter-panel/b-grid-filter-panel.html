@@ -1,0 +1,228 @@
+<div class="splitter" ng-style="a.grid.g.filterPanelDirection == 'left' && {'right':'0'} || {'left': '0px'}"></div>
+<div class="b-grid-filter-panel" >
+    <div class="header">
+        <h5 class="title">{{ a.bConfig.langs.gf_filter_title }}</h5>
+        <div class="actions">
+          <button type="button" class="close" ng-click="toogleDirection()">
+                <i class="fa" ng-class="{'fa-arrow-right': a.grid.g.filterPanelDirection == 'left', 'fa-arrow-left': a.grid.g.filterPanelDirection == 'right'}"></i>
+          </button>
+          <button type="button" class="close" ng-click="a.grid.g.openFilterPanel = false; a.grid.saveSettingChanges()">
+            <svg class="cursor-pointer text-black-50" width="16" height="16" viewBox="0 0 16 16" fill="#000000"
+                 xmlns="http://www.w3.org/2000/svg">
+                <path d="M1.41427 0.335711L0.335022 1.41496L6.92227 7.99996L0.335022 14.5857L1.41502 15.665L8.00002 9.07771L14.5858 15.6642L15.6643 14.5857L9.07777 7.99996L15.6643 1.41421L14.585 0.334961L8.00002 6.92221L1.41427 0.335711Z"
+                      fill="black" fill-opacity="0.9"/>
+            </svg>
+          </button>  
+        </div>
+    </div>
+    <form class="body" name="filter-body">
+        <div class="b-filter-actions-wrapper d-flex justify-content-between px-5 py-3">
+            <div class="dropdown">
+                <button type="button" class="btn btn-default dropdown-toggle mr-2"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    {{ a.bGridFilter.container.name || a.bConfig.langs.gf_template }}
+                </button>
+                <div class="dropdown-menu">
+                    <div ng-show="a.bGridFilter.newFilterMode" class="add-new-field-wrapper">
+                        <input type="text" class="form-control"
+                               placeholder="{{ a.bConfig.langs.gf_input_filter }}"
+                               ng-model="a.bGridFilter.new_filter_name"
+                               ng-keypress="a.bGridFilter.keypressNewFilter($event)"/>
+                        <div class="w-100 d-flex justify-content-between mt-2"
+                             ng-show="a.bGridFilter.newFilterMode">
+                            <button type="button" class="btn btn-primary"
+                                    ng-click="a.bGridFilter.saveNewFilter()">
+                                {{ a.bConfig.langs.gf_save_template }}
+                            </button>
+                            <button type="button" class="btn btn-default"
+                                    ng-click="a.bGridFilter.clearNewFilter()">
+                                {{ a.bConfig.langs.cancel }}
+                            </button>
+                        </div>
+                    </div>
+                    <div class="dropdown-item cursor-pointer py-2 px-4 b-filter-add-item-action"
+                         ng-hide="a.bGridFilter.newFilterMode"
+                         ng-click="a.bGridFilter.addNewFilter($event); focusNesFilter()">
+                        <i class="fas fa-save mr-4"></i>
+                        {{ a.bConfig.langs.gf_new_template }}
+                    </div>
+                    <div ng-click="a.bGridFilter.setTemplate(item)"
+                         ng-class="{'b-filter-current-item': item.code == a.bGridFilter.container.code}"
+                         class="dropdown-item cursor-pointer py-2 px-4 d-flex justify-content-between"
+                         ng-repeat="item in a.bGridFilter.templates">
+                    <span class="b-filter-template-item-text-container">
+                      <span class="b-filter-template-item-text" ng-hide="item.editTextMode">{{ item.name }}</span>
+                      <input type="text" class="form-control" placeholder="{{ a.bConfig.langs.gf_input_filter }}"
+                             ng-model="item.name"
+                             ng-click="$event.stopPropagation()" ng-keypress="a.bGridFilter.editListName(item, $event)"
+                             ng-show="item.editTextMode"/>
+                    </span>
+                        <div class="dropdown-item-actions" ng-hide="item.editTextMode">
+                            <i class="b-filter-pin fas fa-thumbtack cursor-pointer text-hover-primary"
+                               ng-class="{'b-filter-pinned' : item.pin == 'Y'}"
+                               ng-click="a.bGridFilter.doAction(item, 'pin', $event)">
+                            </i>
+                            <i class="fas fa-pencil-alt cursor-pointer text-hover-primary"
+                               ng-click="a.bGridFilter.doAction(item, 'edit', $event)"></i>
+                            <i class="fas fa-trash cursor-pointer text-hover-danger"
+                               ng-click="a.bGridFilter.doAction(item, 'remove', $event)"></i>
+                        </div>
+                        <div class="dropdown-item-actions" ng-show="item.editTextMode">
+                            <i class="fas fa-save cursor-pointer text-hover-primary"
+                               ng-click="a.bGridFilter.saveEditFilter(item)"></i>
+                            <i class="fas fa-times cursor-pointer text-hover-danger"
+                               ng-click="a.bGridFilter.cancelEditFilter(item)"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="b-filter-actions-right">
+                <button type="button" class="btn btn-default btn-icon" b-toggle data-container="body"
+                        data-title="{{ a.bConfig.langs.reset_to_default }}"
+                        on-click-yes="a.bGridFilter.setDefault()">
+                    <i b-toggle="tooltip" title="{{ a.bConfig.langs.set_default }}" class="fas fa-undo"></i>
+                </button>
+                <div class="btn-group filter-field-add-dropdown">
+                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">
+                        {{ a.bConfig.langs.gf_add_filter_field }}
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-right">
+                        <div class="dropdown-item d-flex align-items-center w-100"
+                             ng-repeat="f in a.bGridFilter.getUncheckedFilters()"
+                             ng-click="a.bGridFilter.addFilterItem(f.name)">
+                            {{ f.label }}
+                        </div>
+                        <div class="dropdown-item" ng-if="!a.bGridFilter.getUncheckedFilters().length">
+                            {{ a.bConfig.langs.gf_no_filters }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="b-filter-wrapper">
+            <div class="b-filter-inner-container">
+                <div class="b-filter-field-container">
+                    <div class="b-filter-field-container-list">
+                        <div class="b-filter-pane-edit">
+                            <div ng-repeat="f in a.bGridFilter.container.filters" b-control-field>
+                                <div class="b-filter-item">
+                                    <div class="b-filter-header">
+                                        <p class="b-filter-item-title">
+                                            <span> {{ f.label }} </span>
+                                            <span ng-class="{'text-primary': f.checkbox_state == 'N', 'text-muted': f.checkbox_state == 'P'}"
+                                                  class="b-filter-select-all p-0 pl-2"
+                                                  ng-if="f.mode=='md' && f.count <= a.bGridFilter.md_max_count"
+                                                  ng-click="a.bGridFilter.selectAll(f)">
+                                                    {{f.checkbox_state == 'N' ? a.bConfig.langs.gf_select_all : a.bConfig.langs.gf_unselect_all}}
+                                              </span>
+                                        </p>
+                                        <span class="b-filter-remove" ng-click="a.bGridFilter.deleteFilterItem(f)">
+                                              <i class="fas fa-times"></i>
+                                          </span>
+                                    </div>
+                                    <div class="b-filter-item-content">
+                                        <div role="group" class="mr-4 filter-operator">
+                                            <button type="button"
+                                                    class="filter-type-btn btn btn-icon dropdown-toggle no-after"
+                                                    ng-class="{'btn-default': !f.nulls, 'btn-warning': f.nulls}"
+                                                    data-toggle="dropdown" tabindex="-1">
+                                                <i ng-class="f.operation.class"></i>
+                                            </button>
+                                            <div class="dropdown-menu" x-placement="bottom-start">
+                                                <a href class="dropdown-item" ng-repeat="oper in f.operations"
+                                                   ng-click="f.operation = oper; f.op = oper.op">
+                                                    <i ng-class="oper.class"></i>
+                                                    {{ oper.text }}
+                                                </a>
+                                                <div class="dropdown-divider"></div>
+                                                <a href class="px-4 text-dark d-block py-1"
+                                                   ng-click="a.bGridFilter.selectNulls(f, '=', $event)">
+                                                    <label class="checkbox">
+                                                        <input type="checkbox" name="include-nulls"
+                                                               ng-checked="f.nulls == '='">
+                                                        <span>{{ a.bConfig.langs.gf_include_nulls }}</span>
+                                                    </label>
+                                                </a>
+                                                <a href class="px-4 text-dark d-block py-1"
+                                                   ng-click="a.bGridFilter.selectNulls(f, '<>', $event)">
+                                                    <label class="checkbox">
+                                                        <input type="checkbox" name="include-not-nulls"
+                                                               ng-checked="f.nulls == '<>'">
+                                                        <span>{{ a.bConfig.langs.gf_include_not_nulls }}</span>
+                                                    </label>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="filter-body">
+                                            <div ng-if="f.mode=='search'">
+                                                <input class="form-control" ng-model="f.val">
+                                            </div>
+                                            <div ng-if="f.mode=='rangeNumber'">
+                                                <input class="form-control" ng-model="f.val.left" b-number
+                                                       style="width: auto;display: inline-block;">
+                                                <div style="width:14px;display: inline-block;">&nbsp;</div>
+                                                <input class="form-control" ng-model="f.val.right" b-number
+                                                       style="width:auto;display: inline-block;">
+                                            </div>
+                                            <div ng-if="f.mode=='rangeDate'">
+                                                <input class="form-control" ng-model="f.val.left"
+                                                       b-date-picker="{{ f.dateModelFormat }}"
+                                                       view-format="{{ f.dateViewFormat }}"
+                                                       style="width:auto;display: inline-block;">
+                                                <div style="width:14px;display: inline-block;">&nbsp;</div>
+                                                <input class="form-control" ng-model="f.val.right"
+                                                       b-date-picker="{{ f.dateModelFormat }}"
+                                                       view-format="{{ f.dateViewFormat }}"
+                                                       style="width:auto;display: inline-block;">
+                                            </div>
+                                            <div ng-if="f.mode=='number'">
+                                                <input class="form-control" ng-model="f.val" b-number
+                                                       style="width:auto;display: inline-block;">
+                                            </div>
+                                            <div ng-if="f.mode=='date'">
+                                                <input class="form-control" ng-model="f.val"
+                                                       b-date-picker="{{ f.dateModelFormat }}"
+                                                       view-format="{{ f.dateViewFormat }}"
+                                                       style="width:auto;display: inline-block;">
+                                            </div>
+                                            <div ng-if="f.mode=='mc'">
+                                                <label class="checkbox mt-2" ng-repeat="v in f.val">
+                                                    <input type="checkbox" ng-model="v.val"/>
+                                                    <span>{{ v.name }}</span>
+                                                </label>
+                                            </div>
+                                            <div ng-if="f.mode=='mt'">
+                                                <b-tree-select multiple origin="f.val" model="f.model"/>
+                                            </div>
+                                            <div ng-if="f.mode=='md'">
+                                                <b-input multiple=3 name="{{ a.bGridFilter.query_name }}"
+                                                         model="f.val" label="name" run-page="a.bGridFilter.page"
+                                                         refer-name="{{ f.decorateWith }}"
+                                                         on-change="a.bGridFilter.onQueryChange(f, query, value)"
+                                                         on-select="a.bGridFilter.onSelect(f, row)"
+                                                         on-delete="a.bGridFilter.onDelete(f, index, row)">
+                                                    <div class="col-sm-24">{{row.name}}</div>
+                                                </b-input>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="b-filter-bottom-wrapper">
+            <div class="b-filter-bottom-actions">
+                <button type="submit" class="btn btn-primary" ng-click="a.bGridFilter.run()">
+                    {{ a.bConfig.langs.apply }}
+                </button>
+                <button type="button" class="btn btn-default" data-dismis="modal"
+                        ng-click="a.bGridFilter.showAll()">{{ a.bConfig.langs.gf_show_all }}
+                </button>
+            </div>
+        </div>
+    </form>
+</div>

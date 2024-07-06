@@ -1,0 +1,28 @@
+header {
+  font-size: 0.9rem;
+  height: 65px;
+  background-color: #072030;
+}
+
+main {
+  font-size: 0.9rem;
+  /* 100 view height - 4em header - 4em footer */
+  min-height: calc(100vh - 65px - 65px);
+  background-color: #072030;
+}
+
+footer {
+  height: 65px;
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.32);
+  background-color: #072030;
+}
+
+.auth-card {
+  width: 26em;
+  padding: 2em 1em 1em;
+}
+
+.auth-card .company-logo {
+  margin-bottom: 2em;
+}

@@ -1,0 +1,159 @@
+.b-tree-select {
+  .b-tree-view {
+    padding: 10px 15px;
+    position: relative;
+    ul {
+      padding-left: 20px;
+      display: block;
+    }
+    li {
+      position: relative;
+      list-style: none;
+
+      i {
+        position: absolute;
+        left: -20px;
+        top: 5px;
+        font-size: 80%;
+        border: 1px solid #ddd;
+        padding: 2px;
+      }
+      .check-childs {
+        display: block;
+        cursor: pointer;
+        font-size: 95%;
+        text-transform: lowercase;
+
+        &:hover ~ li .checkbox > span:before {
+          box-shadow: 0 0 0px 2px #c1e1fd;
+        }
+      }
+      > label.group {
+        padding: 0px;
+        background-color: #f8f8ff;
+        box-shadow: 0 0 1px 3px #f8f8ff;
+
+        > span:before,
+        > span:after {
+          content: none;
+        }
+      }
+    }
+  }
+
+  .input {
+    .simple {
+      position: relative;
+      display: flex;
+      -webkit-flex-wrap: wrap;
+      flex-wrap: wrap;
+      height: auto;
+      padding: 0;
+
+      .clear-button {
+        position: absolute;
+        right: 0;
+        top: 0;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 3rem;
+        padding-top: .1rem;
+        cursor: pointer;
+        > i {
+          display: table-cell;
+          vertical-align: middle;
+          text-align: center;
+          line-height: 0;
+        }
+      }
+    }
+    .simple:hover .edit {
+      cursor: pointer;
+      color: #5867dd;
+    }
+    .multiple {
+      display: flex;
+      -webkit-flex-wrap: wrap;
+      flex-wrap: wrap;
+      height: auto;
+      padding: 0;
+
+      &:focus-within {
+        border-color: #5985dc;
+      }
+      &.padding {
+        padding: 1px 1px 0 1px;
+      }
+      &.blurred.empty,
+      form.ng-submitted &.empty {
+        border-color: #a94442;
+      }
+
+      .title {
+        padding: .5rem .8rem;
+        color: #2e40d4;
+        cursor: pointer;
+      }
+      .btn {
+        display: inline-block;
+        float: left;
+        overflow-x: hidden;
+        max-width: 100%;
+        margin-right: 1px;
+        margin-bottom: 1px;
+      }
+      input {
+        min-width: 20%;
+        -webkit-flex: 1;
+        flex: 1;
+        border: none;
+        outline:none;
+      }
+      .clear-button {
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        width: 2rem;
+        padding-top: 0.5rem;
+        cursor: pointer;
+        > i {
+          display: table-cell;
+          vertical-align: middle;
+          text-align: center;
+          line-height: 0;
+        }
+      }
+      &:hover{
+        .clear-button{
+          color: #5867dd;
+        }
+      }
+    }
+  }
+  .hint {
+    position: absolute;
+    width: 100%;
+    margin-top: 2px;
+    z-index: 100;
+    background-color: #fff;
+    border: 1px solid #ddd;
+
+    .hint-body {
+      display: block;
+      overflow-y: auto;
+      max-height: 350px;
+
+      .checkbox,
+      .radio {
+        width: 100%;
+      }
+    }
+  }
+}
+
+.input-group > b-tree-select {
+  -webkit-flex: 1;
+  flex: 1;
+}

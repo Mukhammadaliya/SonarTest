@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <title>Smartup</title>
+
+  <script src="assets/underscore/underscore-min.js?_=now"></script>
+  <script src="assets/jquery/jquery.min.js?_=now"></script>
+  <script src="assets/bootstrap/js/bootstrap.bundle.min.js?_=now"></script>
+  <script src="assets/e-imzo/e-imzo.js"></script>
+  <script src="assets/e-imzo/e-imzo-client.js"></script>
+
+  <link rel="shortcut icon" href="favicon.ico" />
+  <link href="assets/fontawesome/css/all.min.css?_=now" rel="stylesheet" type="text/css" />
+  <link href="assets/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+  <link href="biruni/login.css?_=now" rel="stylesheet" type="text/css" />
+</head>
+<body>
+  <div class="b-head-lines">
+    <div class="b-head-line"></div>
+    <div class="b-head-line"></div>
+    <div class="b-head-line"></div>
+    <div class="b-head-line"></div>
+    <div class="b-head-line"></div>
+    <div class="b-head-line"></div>
+    <div class="b-head-line"></div>
+    <div class="b-head-line"></div>
+  </div>
+  <div class="form-group">
+    <div class="m-4"></div>
+    <div class="user-keys"></div>
+  </div>
+  <div class="form-group" style="display: none;" id="notinstalled">
+    <div class="m-5"></div>
+    <div class="p-3 offset-sm-2 col-sm-20" style="background-color: #e8c139;">
+      <div>
+        <p class="h4">
+          <span style="display: block; line-height: 26px">Для корректной работы системы необходимо установить модуль <i>E-IMZO</i> <sup> (30 Мегабайт)</sup> или <i>Браузер E-IMZO</i> <sup> (60 Мегабайт)</sup></span>
+          <a style="background-color: rgba(253, 255, 255, 0.7); margin: 5px 0;" class="btn btn-default btn-xs" href="https://e-imzo.uz/main/downloads/" role="button">
+            <i class="fa fa-download"></i>Скачать ПО E-IMZO
+          </a> <br>
+          <strong>
+            <font size="-1">ВНИМАНИЕ ! Установите модуль E-IMZO от имени Администратора.</font>
+          </strong>
+        </p>
+        <p>Ознакомится с инструкцией по установке модуля Е-IMZO можно <a href="https://esi.uz/index/help" style="text-decoration: underline">здесь</a>.</p>
+        <p></p>
+      </div>
+    </div>
+  </div>
+<script>
+$(function () {
+  var tErrorBrowserWS = 'The browser does not support WebSocket technology. Install the latest version of the browser';
+
+
+  $.ajaxSetup({ headers: { "content-type": "application/json; charset=utf-8" }});
+
+  $.urlParam = function(name) {
+    var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
+    if (results == null) {
+       return null;
+    } else {
+      return results[1] || 0;
+    }
+  }
+
+  function escapeHtml(text) {
+    let codes = {
+      '&': '&amp;',
+      '<': '&lt;',
+      '>': '&gt;',
+      "'": '&#39;',
+      '"': '&quot;',
+    };
+    return String(text).replace(/[&<>'"]/g, tag => codes[tag] || tag);
+  }
+
+  function fail(info) {
+    return function (exception, reason) {
+      if (reason) {
+        alert(`${info} ${reason}`);
+      } else if (exception) {
+        alert(`${info} ${exception}`)
+      } else {
+        alert(`${info} ${tErrorBrowserWS}`)
+      }
+    }
+  }
+
+  function checkVersionSuccess(major, minor) {
+    if (EIMZOClient.NEW_API) {
+      EIMZOClient.installApiKeys(prepareKeys, fail("installApiKeys"));
+    } else {
+      alert("version is not suitable");
+    }
+  }
+
+  function prepareKeys() {
+    EIMZOClient.listAllUserKeys((key, index)=> `item-${key.serialNumber}-${index}`, createElement, addDocument, fail("listAllUserKeys"));
+  }
+
+  function createElement(itemId, v) {
+    var now = new Date();
+    v.expired = dates.compare(now, v.validTo) > 0;
+
+    var item = $(`
+    <div class="form-group" ${escapeHtml(itemId)}>
+      <div class="p-3 offset-sm-2 col-sm-20 border" style="background-color: white; border-radius: 4px; cursor: pointer;">
+        <a style="color: gray">
+          <img src="assets/e-imzo/pfx.ico"/>
+          <b>№ СЕРТИФИКАТА: </b> ${escapeHtml(v.serialNumber)}<br/>
+          <b>ИНН: </b> ${escapeHtml(v.TIN)} <b>${v.TIN == v.UID? "ФИЗИЧЕСКОЕ ЛИЦО": "ЮРИДИЧЕСКОЕ ЛИЦО"}</b><br/>
+          <b>Ф.И.О: </b>${escapeHtml(v.CN)}<br/>
+          <b>Организация: </b>${escapeHtml(v.O)}<br/>
+          <span style="font-size: 12px; ${v.expired ? "color: red;": ""}">
+            <b>Срок действия сертификата ${escapeHtml(v.validFrom.ddmmyyyy())} - ${escapeHtml(v.validTo.ddmmyyyy())} ${v.expired ? "истек": ""}</b>
+          </span>
+        </a>
+      </div>
+    </div>`);
+
+    item.click(_.partial(EIMZOClient.loadKey, v, _.partial(requestGUID, _, v), fail("loadKey")));
+
+    return item;
+  }
+
+  function requestPkcs(signVal) {
+    var data = {
+      action: "authenticate",
+      sign: signVal
+    }
+    $.post(`oauth2/token/eimzo?company_code=${$.urlParam("company_code")}&lang_code=${$.urlParam("lang_code") || 'ru'}`, JSON.stringify(data)).then(function(result) {
+      window.location.replace(result.substr(1));
+    }, function(result) {
+      alert(result.responseText);
+    });
+  }
+
+  function requestGUID(keyId, v) {
+    $.post("oauth2/token/eimzo", JSON.stringify({"action": "generate_guid"})).then(function(guid) {
+      EIMZOClient.createPkcs7(keyId, guid, null, requestPkcs, fail("createPkcs7"));
+    }, function(result) {
+      alert(result.responseText);
+    });
+  }
+
+  function addDocument(elems, firstId) {
+    var div = $('.user-keys');
+    _.each(elems, elem=> div.append(elem))
+  }
+
+  function AppLoad() {
+    EIMZOClient.API_KEYS = [
+      'uzpharminfo.uz', '5A25A7C35F202C8B4E29AFEDECF96A548704817531A49656F50503D2E9FFF5FB187010A10C4EF8FBE750596B7DF1B62A3564B91ED9DC232CC226E754AD4861F2'
+    ];
+
+    EIMZOClient.checkVersion(checkVersionSuccess, function() {
+      $("body").find("#notinstalled").css("display","block");
+    });
+  }
+  AppLoad();
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Smartup</title>
+
+
+  <script src="assets/jquery/jquery.min.js?_=now"></script>
+
+  <link href="assets/fontawesome/css/all.min.css?_=now" rel="stylesheet" type="text/css" />
+  <link href="assets/metronic/css/style.bundle.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+  <div style="margin: 50px 200px 200px;">
+    <div style="margin-bottom: 5px;">
+      <button type="button" class="btn btn-success" id="start">start</button>
+      <button type="button" class="btn btn-danger" id="stop">stop</button>
+      <button type="button" class="btn btn-sm btn-default" id="refresh"><i class="fa fa-sync"></i></button>
+    </div>
+    <h2><b>All files:</b>&nbsp;<em id="all"></em></h2>
+    <h2><b>Transferred files:</b>&nbsp;<em id="transferred"></em></h2>
+    <div id="migration_result"></div>
+  </div>
+
+  <script>
+  $(function() {
+    const url = location.origin + '/file_migrator';
+
+    $.ajax({
+        type: "POST",
+        url: url,
+        headers: {
+          FileMigrator: 'files_info'
+        },
+        success: function(res) {
+          const data = res.split(",");
+          $("#all").html(data[0]);
+          $("#transferred").html(data[1]);
+        }
+    });
+
+    $("#start").click(function() {
+      $.ajax({
+        type: "POST",
+        url: url,
+        headers: {
+          FileMigrator: 'start_transfer'
+        },
+        success: function(res) {
+          $("#start").attr("disabled", true);
+          $("#stop").removeAttr("disabled");
+        }
+      });
+    });
+
+    $("#stop").click(function() {
+      $.ajax({
+        type: "POST",
+        url: url,
+        headers: {
+          FileMigrator: 'stop_transfer'
+        },
+        success: function(res) {
+          $("#stop").attr("disabled", true);
+          $("#start").removeAttr("disabled");
+        }
+      });
+    });
+
+    $("#refresh").click(function() {
+      $.ajax({
+        type: "POST",
+        url: url,
+        headers: {
+          FileMigrator: 'files_info'
+        },
+        success: function(res) {
+          const data = res.split(",");
+          $("#all").html(data[0]);
+          $("#transferred").html(data[1]);
+        }
+      });
+    });
+
+  });
+  </script>
+</body>
+</html>

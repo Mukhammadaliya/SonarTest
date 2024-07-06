@@ -1,0 +1,17 @@
+<div class="b-tree-select">
+  <div class="input">
+    <%= inputHtml %>
+  </div>
+  <div class="hint" ng-show="_$bTree.showHint">
+    <div class="hint-body b-tree-view"></div>
+    <div class="d-flex justify-content-between" ng-show="_$bTree.hasMore">
+      <span class="px-3 py-2 cursor-pointer" ng-click="_$bTree.showMore()">{{ ::_$bTree.langs.tree_more }}</span>
+    </div>
+    <!-- TODO: cannot load child rows of a hidden row as you cannot scroll -->
+    <!-- <div class="hint-body b-tree-view" b-when-scrolled="_$bTree.hasMore && _$bTree.showMore()"></div> -->
+    <div class="d-flex justify-content-between" ng-show="_$bTree.isAdd || _$bTree.isView">
+      <a class="p-3" ng-if="_$bTree.isAdd" href="" ng-click="_$bTree.onAddClick()">{{ ::_$bTree.langs.tree_add }}</a>
+      <a class="p-3" ng-if="_$bTree.isView" href="" ng-click="_$bTree.onViewClick()">{{ ::_$bTree.langs.tree_view }}</a>
+    </div>
+  </div>
+</div>

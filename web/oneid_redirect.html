@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>OneID authorization</title>
+<script src="assets/jquery/jquery-2.2.0.min.js"></script>
+<script src="assets/underscore/underscore-min.js"></script>
+<link href="assets/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+<script src="assets/bootstrap/js/bootstrap.bundle.min.js"></script>
+<link href="assets/markdown-it/css/github.min.css" rel="stylesheet" type="text/css" />
+<link href="assets/markdown-it/css/index.css" rel="stylesheet" type="text/css" />
+</head>
+<script>
+  $(function() {
+    $.urlParam = function(name) {
+      var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
+      if (results == null) {
+         return null;
+      } else {
+        return decodeURIComponent(results[1] || '');
+      }
+    }
+
+    function showAlert(class_name) {
+      $("body").find("[role='alert']").addClass("alert-" + class_name);
+      $("body").find("close-button").text(closeText).show();
+    }
+
+    function showPinMessage() {
+      $("body").find(".pin-message").text(pin_message).show();
+    }
+
+    function showMessage() {
+      $("body").find(".message").text(message).show();
+    }
+
+    function showErrorMessage() {
+      $("body").find(".error-message").text(error).show();
+    }
+
+    function authenticateFailed() {
+      showAlert("success");
+      showPinMessage();
+      showMessage();
+      showErrorMessage();
+    }
+
+    function userNotCreated() {
+      showAlert("warning");
+      showPinMessage();
+      showMessage();
+    }
+
+    function error() {
+      showAlert("danger");
+      $("body").find(".pin-message").text(errorText).show();
+    }
+
+    let pin = $.urlParam("pin");
+    let errorText = $.urlParam("error");
+    let message = $.urlParam("message");
+    let pin_message = $.urlParam("pin_message");
+    let closeText = $.urlParam("close_text");
+
+    switch ($.urlParam("action")) {
+      case "F": authenticateFailed(); break;
+      case "N": userNotCreated(); break;
+      case "E": error(); break;
+      default:
+        window.close();
+      break;
+    }
+
+  });
+</script>
+<body style="background-color: #fafafb;">
+<div style="width: 600px; height: 300px; position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);">
+  <div class="alert" role="alert">
+    <h4 class="alert-heading pin-message" style="display: none;"></h4>
+    <p class="message" style="display: none;"></p>
+    <p class="mb-0 error-message"></p>
+  </div>
+  <button class="btn btn-sm btn-default float-right close-button" style="display: none;"></button>
+</div>
+</body>
+</html>

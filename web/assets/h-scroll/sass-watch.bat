@@ -1,0 +1,1 @@
+sass --watch h-scroll.scss:h-scroll.min.css -s compressed --no-source-map

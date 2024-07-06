@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app>
+    <!-- <context-param>
+        <param-name>projects_folder</param-name>
+        <param-value>path\to\projects</param-value>
+    </context-param> -->
+
+    <context-param>
+        <param-name>editor_path</param-name>
+        <param-value>c:\Program Files (x86)\Notepad++\notepad++.exe</param-value>
+        <!-- <param-value>C:\Users\username\AppData\Local\Programs\Microsoft VS Code\Code.exe</param-value> -->
+        <!-- <param-value>C:\Program Files\Sublime Text 3\sublime_text.exe</param-value> -->
+    </context-param>
+    <context-param>
+        <param-name>google_project_number</param-name>
+        <param-value>google_project_number</param-value>
+    </context-param>
+    <context-param>
+        <param-name>google_service_account_key_file_path</param-name>
+        <param-value>path\to\key\file</param-value>
+    </context-param>
+
+    <!-- <listener>
+      <listener-class>uz.greenwhite.biruni.dev.DevContextListener</listener-class>
+    </listener> -->
+
+    <servlet>
+        <servlet-name>biruni_dev</servlet-name>
+        <servlet-class>uz.greenwhite.biruni.dev.ProjectManager</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>biruni_dev</servlet-name>
+        <url-pattern>/page/*</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>biruni_dev</servlet-name>
+        <url-pattern>/dev/*</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>biruni_dev</servlet-name>
+        <url-pattern>/devtrans/*</url-pattern>
+    </servlet-mapping>
+
+    <!-- E-IMZO wsdl -->
+    <!-- <context-param>
+      <param-name>wsdl_pkcs7</param-name>
+      <param-value>http://127.0.0.1:9193/dsvs/pkcs7/v1?wsdl</param-value>
+    </context-param>
+    <servlet>
+      <servlet-name>eimzo</servlet-name>
+      <servlet-class>uz.greenwhite.biruni.servlet.EimzoServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+      <servlet-name>eimzo</servlet-name>
+      <url-pattern>/eimzo/*</url-pattern>
+    </servlet-mapping> -->
+
+    <!-- Folder where to load setting file [contextPath.properties] (WEB-INF
+      folder if it is not defined) -->
+    <context-param>
+        <param-name>setting_path</param-name>
+        <param-value>~/biruni</param-value>
+    </context-param>
+
+    <!-- interval measured by minutes -->
+    <context-param>
+        <param-name>job_runner_interval</param-name>
+        <param-value>30</param-value>
+    </context-param>
+
+    <!-- the time and day interval of job for cleaning cached images (time/day_interval) -->
+    <!-- <context-param>
+      <param-name>image_cleaner</param-name>
+      <param-value>00:00/7</param-value>
+    </context-param> -->
+
+    <!-- the time and day interval of job for cleaning s3 stored unused files (time/day_interval) -->
+    <!-- <context-param>
+      <param-name>s3_file_cleaner</param-name>
+      <param-value>00:00/7</param-value>
+    </context-param> -->
+
+    <listener>
+        <listener-class>uz.greenwhite.biruni.listener.MyContextListener</listener-class>
+    </listener>
+    <listener>
+        <listener-class>org.apache.commons.fileupload2.jakarta.JakartaFileCleaner</listener-class>
+    </listener>
+    <listener>
+        <listener-class>uz.greenwhite.biruni.listener.ExtraContextListener</listener-class>
+    </listener>
+    <listener>
+        <listener-class>uz.greenwhite.biruni.listener.SessionControlListener</listener-class>
+    </listener>
+
+    <servlet>
+        <servlet-name>easy_report_migrator</servlet-name>
+        <servlet-class>uz.greenwhite.biruni.servlet.EasyReportMigrator</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>easy_report_migrator</servlet-name>
+        <url-pattern>/easy_report_migrator</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>biruni_auth</servlet-name>
+        <servlet-class>uz.greenwhite.biruni.servlet.AuthServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>biruni_auth</servlet-name>
+        <url-pattern>/b/core/s$log_in</url-pattern>
+        <url-pattern>/recaptcha_key</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>biruni</servlet-name>
+        <servlet-class>uz.greenwhite.biruni.servlet.OracleServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>biruni</servlet-name>
+        <url-pattern>/b/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>zktime</servlet-name>
+        <servlet-class>uz.greenwhite.biruni.servlet.ZKTime</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>zktime</servlet-name>
+        <url-pattern>/iclock/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>barcode</servlet-name>
+        <servlet-class>uz.greenwhite.biruni.servlet.BarcodeServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>barcode</servlet-name>
+        <url-pattern>/gen/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>session_info</servlet-name>
+        <servlet-class>uz.greenwhite.biruni.servlet.SessionInfo</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>session_info</servlet-name>
+        <url-pattern>/util/session_info</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>version_info</servlet-name>
+        <servlet-class>uz.greenwhite.biruni.servlet.VersionInfoServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>version_info</servlet-name>
+        <url-pattern>/version_info</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>oauth2_token</servlet-name>
+        <servlet-class>uz.greenwhite.biruni.servlet.Oauth2Token</servlet-class>
+        <init-param>
+            <param-name>oauth2_headers</param-name>
+            <param-value>company_code;lang_code;secret_key_hash</param-value>
+        </init-param>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>oauth2_token</servlet-name>
+        <url-pattern>/oauth2/token/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>oauth2_client_server</servlet-name>
+        <servlet-class>uz.greenwhite.biruni.servlet.Oauth2ClientServer</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>oauth2_client_server</servlet-name>
+        <url-pattern>/oauth2/auth/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>api_client_server</servlet-name>
+        <servlet-class>uz.greenwhite.biruni.servlet.ApiClientServer</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>api_client_server</servlet-name>
+        <url-pattern>/api/auth/token</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>qlik_session_servlet</servlet-name>
+        <servlet-class>uz.greenwhite.biruni.servlet.QlikSessionServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>qlik_session_servlet</servlet-name>
+        <url-pattern>/qlik_session</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>docs_load</servlet-name>
+        <servlet-class>uz.greenwhite.biruni.servlet.DocsLoadServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>docs_load</servlet-name>
+        <url-pattern>/docs/load</url-pattern>
+    </servlet-mapping>
+
+    <!-- secure cookie -->
+    <!-- <session-config>
+      <cookie-config>
+        <secure>true</secure>
+      </cookie-config>
+    </session-config> -->
+
+    <filter>
+        <filter-name>gzip_filter</filter-name>
+        <filter-class>uz.greenwhite.biruni.http.GZipServletFilter</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>gzip_filter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <!-- Error Handling -->
+    <servlet>
+        <servlet-name>error_handler</servlet-name>
+        <servlet-class>uz.greenwhite.biruni.servlet.ErrorHandler</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>error_handler</servlet-name>
+        <url-pattern>/ErrorHandler</url-pattern>
+    </servlet-mapping>
+
+    <error-page>
+        <error-code>404</error-code>
+        <location>/ErrorHandler</location>
+    </error-page>
+    <error-page>
+        <error-code>403</error-code>
+        <location>/ErrorHandler</location>
+    </error-page>
+
+    <error-page>
+        <exception-type>java.lang.Throwable</exception-type>
+        <location>/ErrorHandler</location>
+    </error-page>
+</web-app>

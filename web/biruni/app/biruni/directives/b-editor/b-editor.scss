@@ -1,0 +1,10 @@
+b-editor {
+  background-color: white;
+  display: block !important;
+  border: 1px solid #ced4da !important;
+  border-radius: 4px !important;
+
+  &.ck-focused {
+    border-color: #9cb8ff !important;
+  }
+}

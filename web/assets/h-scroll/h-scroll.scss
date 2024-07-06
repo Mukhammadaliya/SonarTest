@@ -1,0 +1,56 @@
+.h-parent-scrollable {
+  position: relative;
+  overflow: hidden;
+
+  > .h-left-ear {
+    left: 0;
+  }
+  > .h-left-ear,
+  > .h-right-ear {
+    top: 50%;
+    -webkit-transform: translateY(-50%);
+    transform: translateY(-50%);
+    width: 30px;
+    position: absolute;
+    text-align: center;
+    overflow: hidden;
+    z-index: 2;
+    visibility: hidden;
+    opacity: 0;
+    -webkit-transition: all .3s;
+    transition: all .3s;
+
+    &:hover > .h-left-ear-icon,
+    &:hover > .h-right-ear-icon {
+      background: #bfbfbf;
+    }
+
+    > .h-left-ear-icon,
+    > .h-right-ear-icon {
+      position: relative;
+      background: #d5d7e1;
+      height: 65px;
+      display: block;
+      width: 60px;
+      border-radius: 50%;
+      padding-top: 24px;
+
+      > i {
+        color: white;
+        font-size: 120%;
+      }
+    }
+
+    > .h-left-ear-icon {
+      left: -30px;
+
+      > i {
+        margin-left: 20px;
+      }
+    }
+
+    > .h-right-ear-icon > i {
+      margin-left: -20px;
+    }
+  }
+}
